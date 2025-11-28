@@ -1,42 +1,61 @@
-# Virtual environments
-venv/
-env/
-ENV/
-
-# Python
-__pycache__/
+# Compiled and build artifacts
 *.pyc
-*.pyo
-*.pyd
-.Python
+__pycache__/
+*.o
+*.obj
+*.exe
+*.dll
 *.so
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
+*.class
+*.out
 
-# Database
-*.db
-*.db-journal
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Environment variables
+# Dependencies
+node_modules/
+venv/
+.venv/
 .env
 .env.local
-.env.*.local
+.env.*
 
-# Logs
+# Build directories
+dist/
+build/
+target/
 *.log
-logs/
+*.tmp
+*.swp
 
-# Local config
-config.py
+# Editors
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+coverage/
+htmlcov/
+.mypy_cache/
+.pytest_cache/
+.gradle/
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
