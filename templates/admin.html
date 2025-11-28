@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Verify Give Link</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Verify Give Link Admin</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/donate">Donate</a></li>
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="/admin/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="admin-dashboard">
+            <h1>Admin Dashboard</h1>
+            <p>Manage beneficiaries and donation requests</p>
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                            <div class="flash-message success">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <div class="beneficiary-list">
+                <h2>Beneficiary Requests</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Reason</th>
+                            <th>Amount Needed</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for beneficiary in beneficiaries %}
+                        <tr>
+                            <td>{{ beneficiary[0] }}</td>
+                            <td>{{ beneficiary[1] }}</td>
+                            <td>{{ beneficiary[2] }}</td>
+                            <td>{{ beneficiary[3] }}</td>
+                            <td>{{ beneficiary[4][:50] }}{% if beneficiary[4]|length > 50 %}...{% endif %}</td>
+                            <td>${{ "%.2f"|format(beneficiary[6]|float) }}</td>
+                            <td>
+                                <span class="status-badge {{ beneficiary[7] }}">
+                                    {{ beneficiary[7].title() }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if beneficiary[7] == 'pending' %}
+                                    <a href="/admin/approve/{{ beneficiary[0] }}" class="action-btn approve">Approve</a>
+                                    <a href="/admin/reject/{{ beneficiary[0] }}" class="action-btn reject">Reject</a>
+                                {% else %}
+                                    <span class="no-actions">No actions</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Verify Give Link. All rights reserved.</p>
+    </footer>
+</body>
+</html>
