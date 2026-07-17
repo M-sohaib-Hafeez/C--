@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.sql.Date;
@@ -33,9 +35,32 @@ import java.util.*;
 
 public class AdminBlock extends Application {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/loan_management_system";
-    private static final String DB_USER = "root";
-    private static final String DB_PASS = "{(Dexter_Mimikyu_21)}";
+    private static final String DB_URL;
+    private static final String DB_USER;
+    private static final String DB_PASS;
+
+    static {
+        Properties props = new Properties();
+        try (InputStream input = AdminBlock.class.getClassLoader()
+                .getResourceAsStream("application-secrets.properties")) {
+
+            if (input == null) {
+                throw new RuntimeException(
+                        "application-secrets.properties not found on classpath. " +
+                        "Copy src/main/resources/application-secrets.properties.example to " +
+                        "src/main/resources/application-secrets.properties and fill in your real credentials."
+                );
+            }
+            props.load(input);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load application-secrets.properties", e);
+        }
+
+        DB_URL = props.getProperty("db.url");
+        DB_USER = props.getProperty("db.user");
+        DB_PASS = props.getProperty("db.password");
+    }
 
     private BorderPane root;
     private BorderPane centerPane;
